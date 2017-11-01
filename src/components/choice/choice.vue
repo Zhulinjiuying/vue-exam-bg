@@ -48,11 +48,6 @@
         return Array.from({length: this.num}, () => { return {} })
       }
     },
-    // created: function() {
-    //   if (!this.questions) {
-    //     this.questions = Array.from({length: this.num}, () => { return {} })
-    //   }
-    // },
     watch: {
       'num': function(newValue, oldValue) {
         if (newValue > oldValue) {
