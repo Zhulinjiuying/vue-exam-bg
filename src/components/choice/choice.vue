@@ -16,7 +16,8 @@
   export default {
     data() {
       return {
-        num: 1
+        num: 1,
+        questionsItem: ''
       }
     },
     props: {
@@ -43,9 +44,11 @@
         }
       }
     },
-    computed: {
-      questionsItem: function() {
-        return Array.from({length: this.num}, () => { return {} })
+    created: function() {
+      if (!this.question) {
+        this.questionsItem = Array.from({length: this.num}, () => { return {} })
+      } else {
+        this.questionsItem = this.questions
       }
     },
     watch: {
@@ -56,10 +59,15 @@
           this.questionsItem.pop()
         }
       },
-      'item': function() {
-        if (!this.questions) {
-          this.questions = Array.from({length: this.num}, () => { return {} })
-        }
+      // 'item': function() {
+      //   if (!this.questions) {
+      //     this.questionsItem = Array.from({length: this.num}, () => { return {} })
+      //   } else {
+      //     this.questions = this.questionsItem
+      //   }
+      // },
+      'questionsItem': function() {
+        this.$emit('update:questions', this.questionsItem)
       }
     }
   }

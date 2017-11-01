@@ -16,7 +16,7 @@
       </div>
       <div  class="main-right" >
         <transition name="fade">
-          <router-view class="view" :item="item" :question.sync="questions[item]"></router-view>
+          <router-view class="view" :item="item" :questions.sync="questions[item]"></router-view>
         </transition>
         <el-button type="primary" @click="onSubmit">提交</el-button>
       </div>
@@ -41,8 +41,7 @@
           SingleChoice: [],
           MultipleChoice: [],
           TfChoice: []
-        },
-        question: []
+        }
       }
     },
     created: function() {

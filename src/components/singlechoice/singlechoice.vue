@@ -45,9 +45,15 @@
     created: function() {
       if (this.question.title) {
         this.t_question.title = this.question.title
+      }
+      if (this.question.item) {
         for (let i = 0; i < this.question.item.length; i++) {
-          this.t_question.item[i] = this.question.item[i]
+          if (this.question.item[i]) {
+            this.t_question.item[i] = this.question.item[i]
+          }
         }
+      }
+      if (this.question.answer) {
         this.t_question.answer = this.question.answer
       }
     },
@@ -59,10 +65,14 @@
     beforeDestroy: function() {
       if (this.t_question.title) {
         this.question.title = this.t_question.title
-        this.question.item = []
-        for (let i = 0; i < this.t_question.item.length; i++) {
+      }
+      this.question.item = []
+      for (let i = 0; i < this.t_question.item.length; i++) {
+        if (this.t_question.item[i]) {
           this.question.item[i] = this.t_question.item[i]
         }
+      }
+      if (this.t_question.answer) {
         this.question.answer = this.t_question.answer
       }
     }
