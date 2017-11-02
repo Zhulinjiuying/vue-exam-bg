@@ -17,7 +17,8 @@
     data() {
       return {
         num: 1,
-        questionsItem: ''
+        questionsItem: '',
+        t_item: ''
       }
     },
     props: {
@@ -37,35 +38,39 @@
     methods: {
       addItem() {
         this.num = this.num + 1
+        this.questionsItem.push({})
       },
       subItem() {
         if (this.num > 0) {
           this.num = this.num - 1
+          this.questionsItem.pop()
         }
       }
     },
     created: function() {
-      if (!this.question) {
+      this.t_item = this.item
+      if (this.questions.length === 0) {
         this.questionsItem = Array.from({length: this.num}, () => { return {} })
       } else {
         this.questionsItem = this.questions
+        this.num = this.questions.length
+      }
+    },
+    beforeUpdate: function() {
+      if (this.t_item === this.item) {
+        return
+      } else {
+        this.t_item = this.item
+      }
+      if (this.questions.length > 0) {
+        this.num = this.questions.length
+        this.questionsItem = this.questions
+      } else {
+        this.num = 1
+        this.questionsItem = Array.from({length: this.num}, () => { return {} })
       }
     },
     watch: {
-      'num': function(newValue, oldValue) {
-        if (newValue > oldValue) {
-          this.questionsItem.push({})
-        } else {
-          this.questionsItem.pop()
-        }
-      },
-      // 'item': function() {
-      //   if (!this.questions) {
-      //     this.questionsItem = Array.from({length: this.num}, () => { return {} })
-      //   } else {
-      //     this.questions = this.questionsItem
-      //   }
-      // },
       'questionsItem': function() {
         this.$emit('update:questions', this.questionsItem)
       }

@@ -1,40 +1,80 @@
 <template>
   <div class="mulitple">
-    <el-form-item :label="question.title">
+    <el-form-item :label="title">
+      <el-input v-model="t_question.title" placeholder="请输入题目信息"></el-input>
     </el-form-item>
-    <el-form-item v-for="(item, index) in question.item" key:"key">
-      <el-checkbox class="radio" v-model="checked" :label="index + 1">{{question.item[index]}}</el-checkbox>
+    <el-form-item label="选项A:">
+      <el-input v-model="t_question.item[0]" placeholder="请输入选项"></el-input>
+    </el-form-item>
+    <el-form-item label="选项B:">
+      <el-input v-model="t_question.item[1]" placeholder="请输入选项"></el-input>
+    </el-form-item>
+    <el-form-item label="选项C:">
+      <el-input v-model="t_question.item[2]" placeholder="请输入选项"></el-input>
+    </el-form-item>
+    <el-form-item label="选项D:">
+      <el-input v-model="t_question.item[3]" placeholder="请输入选项"></el-input>
+    </el-form-item>
+    <el-form-item label="正确答案是">
+      <el-checkbox class="radio" v-model="t_question.answer" label="1">A</el-checkbox>
+      <el-checkbox class="radio" v-model="t_question.answer" label="2">B</el-checkbox>
+      <el-checkbox class="radio" v-model="t_question.answer" label="3">C</el-checkbox>
+      <el-checkbox class="radio" v-model="t_question.answer" label="4">D</el-checkbox>
     </el-form-item>
   </div>
 </template>
 <script>
   export default {
+    data() {
+      return {
+        t_question: {
+          title: '',
+          item: ['', '', '', ''],
+          answer: []
+        }
+      }
+    },
     props: {
       question: {
         type: Object
-      },
-      answer: {
-        type: Array
       },
       index: {
         type: Number
       }
     },
-    data() {
-      return {
-        checked: []
+    created: function() {
+      console.log(this.question.title)
+      if (this.question.title) {
+        this.t_question.title = this.question.title
+      }
+      if (this.question.item) {
+        for (let i = 0; i < this.question.item.length; i++) {
+          if (this.question.item[i]) {
+            this.t_question.item[i] = this.question.item[i]
+          }
+        }
+      }
+      if (this.question.answer) {
+        this.t_question.answer = this.question.answer
       }
     },
-    mounted: function() {
-      if (typeof this.answer[this.index] === 'number') {
-        this.checked = Array.from({length: this.question.item.length}, () => 0)
-      } else {
-        this.checked = this.answer[this.index]
+    computed: {
+      title: function() {
+        return this.index + '.题目'
       }
     },
-    watch: {
-      'checked': function() {
-        this.answer[this.index] = this.checked
+    beforeDestroy: function() {
+      if (this.t_question.title) {
+        this.question.title = this.t_question.title
+      }
+      this.question.item = []
+      for (let i = 0; i < this.t_question.item.length; i++) {
+        if (this.t_question.item[i]) {
+          this.question.item[i] = this.t_question.item[i]
+        }
+      }
+      if (this.t_question.answer) {
+        this.question.answer = this.t_question.answer
       }
     }
   }
