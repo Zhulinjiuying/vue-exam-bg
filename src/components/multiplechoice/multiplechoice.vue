@@ -43,7 +43,6 @@
       }
     },
     created: function() {
-      console.log(this.question.title)
       if (this.question.title) {
         this.t_question.title = this.question.title
       }
